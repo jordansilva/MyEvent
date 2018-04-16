@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MyEvent</string>
+
+    <string name="title_schedule">Schedule</string>
+    <string name="title_happening_now">Happening Now</string>
+    <string name="action_filter">Filter</string>
+    <string name="no_program_available">No program available!</string>
+</resources>

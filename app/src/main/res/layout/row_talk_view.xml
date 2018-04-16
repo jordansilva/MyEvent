@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="talk"
+            type="app.jordansilva.myevent.model.TalkView" />
+
+        <import type="android.view.View" />
+    </data>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/padding_tiny"
+        android:paddingEnd="@dimen/padding_default"
+        android:paddingStart="@dimen/padding_default"
+        android:paddingTop="@dimen/padding_tiny">
+
+        <View
+            android:id="@+id/separator"
+            android:layout_width="3dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@color/colorAccent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:text="@{talk.period()}"
+                android:textAllCaps="true"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/font_small"
+                android:textStyle="bold"
+                tools:text="MON, 12:40 - 16:20" />
+
+            <TextView
+                android:id="@+id/textTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="@{talk.title}"
+                android:textSize="@dimen/font_large"
+                android:textStyle="bold"
+                tools:text="Speaker" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="6dp"
+                android:layout_marginTop="2dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="@{talk.placesIsEmpty() ? View.GONE : View.VISIBLE}">
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginRight="2dp"
+                    android:tint="@color/gray"
+                    app:srcCompat="@drawable/ic_place_black_24dp" />
+
+                <TextView
+                    android:id="@+id/textPlace"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{talk.places()}"
+                    android:textAllCaps="true"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/font_small"
+                    tools:text="ROOM 2" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</layout>
