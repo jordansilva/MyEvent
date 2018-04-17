@@ -21,15 +21,14 @@ class DailyProgrammeViewModel(private val getTalksByDayUseCase: GetTalksByDayUse
     }
 
     fun getDailyTalks() {
-        val calendar = Calendar.getInstance()
-        calendar.set(Calendar.DAY_OF_MONTH, 18)
-        calendar.set(Calendar.MONTH, 8)
-        calendar.set(Calendar.YEAR, 2018)
-        calendar.set(Calendar.HOUR_OF_DAY, 12)
-        calendar.timeZone = Constants.SETTINGS.TIMEZONE
-
         launchAsync {
             try {
+                val calendar = Calendar.getInstance()
+                calendar.set(Calendar.DAY_OF_MONTH, 18)
+                calendar.set(Calendar.MONTH, 8)
+                calendar.set(Calendar.YEAR, 2018)
+                calendar.set(Calendar.HOUR_OF_DAY, 12)
+
                 val offsetDateTime = OffsetDateTime.ofInstant(Instant.ofEpochMilli(calendar.timeInMillis), Constants.SETTINGS.ZONEID)
 
                 val listOfTalks = getTalksByDayUseCase.execute(offsetDateTime)

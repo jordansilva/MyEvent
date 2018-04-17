@@ -54,7 +54,7 @@ object KoinModule {
         factory { AppDatabase.getInstance(get()).talkDao() }
 
         //Repositories
-        factory { AgendaDataRepository(get(), get(), get(), get()) } bind AgendaRepository::class
+        bean { AgendaDataRepository(get(), get(), get(), get()) } bind AgendaRepository::class
     }
 
     val ApiModule = applicationContext {

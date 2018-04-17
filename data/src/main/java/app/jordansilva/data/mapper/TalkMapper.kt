@@ -8,13 +8,13 @@ object TalkMapper : Mapper<Talk, TalkModel> {
     override fun mapFromDomain(type: Talk): TalkModel {
         return TalkModel(id = type.id, name = type.name,
                 startDate = type.startDate, endDate = type.endDate, sectionId = type.parentId,
-                locations = arrayListOf())
+                locations = ArrayList(type.locations?.map { it }))
     }
 
     override fun mapToDomain(type: TalkModel): Talk {
         return Talk(id = type.id, name = type.name,
                 startDate = type.startDate, endDate = type.endDate, parentId = type.sectionId,
-                locations= arrayListOf())
+                locations = type.locations?.map { it })
     }
 
 }
