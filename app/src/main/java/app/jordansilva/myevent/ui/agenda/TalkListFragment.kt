@@ -1,4 +1,4 @@
-package app.jordansilva.myevent.ui.schedule
+package app.jordansilva.myevent.ui.agenda
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import app.jordansilva.myevent.R
-import app.jordansilva.myevent.adapter.ProgramAdapter
 import app.jordansilva.myevent.model.TalkView
 import kotlinx.android.synthetic.main.recyclerview_vertical.view.*
 import org.jetbrains.anko.support.v4.ctx
@@ -37,7 +36,7 @@ class TalkListFragment : Fragment() {
         view.textEmpty.isVisible = !view.recyclerView.isVisible
 
         data?.let {
-            view.recyclerView.adapter = ProgramAdapter(ctx, it)
+            view.recyclerView.adapter = TalkAdapter(ctx, it)
         }
     }
 

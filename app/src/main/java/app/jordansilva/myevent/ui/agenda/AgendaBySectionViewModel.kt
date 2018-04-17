@@ -1,4 +1,4 @@
-package app.jordansilva.myevent.ui.schedule
+package app.jordansilva.myevent.ui.agenda
 
 import android.arch.lifecycle.MutableLiveData
 import app.jordansilva.domain.domain.AgendaSection
@@ -9,9 +9,9 @@ import app.jordansilva.myevent.model.AgendaSectionView
 import app.jordansilva.myevent.model.TalkView
 import app.jordansilva.myevent.ui.BaseViewModel
 
-class DailyProgrammeViewModel(private val agendaUseCase: GetAgendaUseCase,
-                              private val mapperAgenda: MapperView<AgendaSection, AgendaSectionView>,
-                              private val mapperTalk: MapperView<Talk, TalkView>) : BaseViewModel() {
+class AgendaBySectionViewModel(private val agendaUseCase: GetAgendaUseCase,
+                      private val mapperAgenda: MapperView<AgendaSection, AgendaSectionView>,
+                      private val mapperTalk: MapperView<Talk, TalkView>) : BaseViewModel() {
 
     var schedule: MutableLiveData<List<AgendaSectionView>> = MutableLiveData()
 

@@ -25,13 +25,33 @@
             app:contentInsetStart="0dp"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
-            <TextView
-                android:id="@+id/toolbarTitle"
-                style="@style/AppTheme.ActionBar.Title"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:gravity="center" />
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/toolbarTitle"
+                    style="@style/AppTheme.ActionBar.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    tools:text="Schedule" />
+
+                <TextView
+                    android:id="@+id/toolbarSubtitle"
+                    style="@style/AppTheme.ActionBar.Subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    tools:text="Tuesday" />
+
+            </LinearLayout>
 
         </android.support.v7.widget.Toolbar>
 

@@ -1,8 +1,7 @@
-package app.jordansilva.data.repository.model
+package app.jordansilva.data.model
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
-import com.unimedbh.prestador.data.model.BaseModel
 import org.threeten.bp.OffsetDateTime
 
 @Entity(tableName = "agendas")

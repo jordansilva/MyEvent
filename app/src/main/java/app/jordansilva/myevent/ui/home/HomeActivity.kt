@@ -6,8 +6,9 @@ import android.support.v4.app.Fragment
 import android.view.MenuItem
 import app.jordansilva.myevent.R
 import app.jordansilva.myevent.ui.BaseActivity
+import app.jordansilva.myevent.ui.agenda.AgendaBySectionFragment
+import app.jordansilva.myevent.ui.daily.DailyProgrammeFragment
 import app.jordansilva.myevent.ui.happening.TalksHappeningFragment
-import app.jordansilva.myevent.ui.schedule.DailyProgrammeFragment
 import app.jordansilva.myevent.util.extension.disableShiftMode
 import kotlinx.android.synthetic.main.activity_home.*
 
@@ -50,7 +51,7 @@ class HomeActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
         return when (itemId) {
             R.id.navigation_schedule -> showFragment(DailyProgrammeFragment.newInstance())
             R.id.navigation_happening -> showFragment(TalksHappeningFragment.newInstance())
-            R.id.navigation_group -> showFragment(DailyProgrammeFragment.newInstance())
+            R.id.navigation_group -> showFragment(AgendaBySectionFragment.newInstance())
             else -> false
         }
     }

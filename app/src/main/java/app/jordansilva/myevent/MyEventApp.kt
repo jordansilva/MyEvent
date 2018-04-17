@@ -11,6 +11,7 @@ class MyEventApp : Application() {
 
         startKoin(this, listOf(KoinModule.UseCaseModule,
                 KoinModule.ViewModule,
-                KoinModule.RepositoryModule))
+                KoinModule.RepositoryModule,
+                KoinModule.ApiModule))
     }
 }

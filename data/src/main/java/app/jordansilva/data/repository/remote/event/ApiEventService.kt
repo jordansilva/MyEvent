@@ -1,20 +1,16 @@
-package app.jordansilva.data.repository.remote
+package app.jordansilva.data.repository.remote.event
 
-import app.jordansilva.domain.model.Feed
-import app.jordansilva.domain.model.Recipe
+import app.jordansilva.data.repository.remote.event.model.PlaceResponse
+import app.jordansilva.data.repository.remote.event.model.TimeslotResponse
 import kotlinx.coroutines.experimental.Deferred
 import retrofit2.http.GET
-import retrofit2.http.Path
 
 interface ApiEventService {
 
-    @GET("feed.json")
-    fun getUserFeeds(): Deferred<List<Feed>>
+    @GET("timeslot.json")
+    fun getTimeslots(): Deferred<List<TimeslotResponse>>
 
-    @GET("recipe/{id}.json")
-    fun getRecipe(@Path("id") recipeId : String): Deferred<Recipe>
-
-    @GET("recipe/user/{id}.json")
-    fun getUserRecipes(@Path("id") userId : String): Deferred<List<Recipe>>
+    @GET("places.json")
+    fun getPlaces(): Deferred<List<PlaceResponse>>
 
 }

@@ -1,15 +1,22 @@
-package com.unimedbh.prestador.data.repository.local
+package app.jordansilva.data.repository.local
 
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
+import android.arch.persistence.room.TypeConverters
 import android.content.Context
-import com.unimedbh.prestador.data.model.UsuarioModel
+import app.jordansilva.data.model.AgendaModel
+import app.jordansilva.data.model.SectionModel
+import app.jordansilva.data.model.TalkModel
+import app.jordansilva.data.repository.local.converter.RoomTypeConverters
 
-@Database(entities = arrayOf(UsuarioModel::class), version = 1)
+@Database(entities = arrayOf(TalkModel::class, SectionModel::class, AgendaModel::class), version = 1)
+@TypeConverters(RoomTypeConverters::class)
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract fun userDao(): UsuarioDao
+    abstract fun talkDao(): TalkDao
+    abstract fun sectionDao(): SectionDao
+    abstract fun agendaDao(): AgendaDao
 
     companion object {
 
@@ -21,8 +28,7 @@ abstract class AppDatabase : RoomDatabase() {
             synchronized(lock) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.applicationContext,
-                            AppDatabase::class.java,
-                            "prestadorUnimed.db").build()
+                            AppDatabase::class.java, "myevent.db").build()
                 }
                 return INSTANCE!!
             }

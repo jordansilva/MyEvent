@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="android.view.View" />
         <variable
             name="talk"
             type="app.jordansilva.myevent.model.TalkView" />
@@ -12,7 +12,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
         android:orientation="horizontal"
         android:padding="@dimen/padding_default">
 
@@ -63,11 +62,12 @@
                 android:id="@+id/textPlace"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
+                android:layout_marginBottom="2dp"
                 android:text="@{ talk.places() }"
                 android:textAllCaps="true"
                 android:textColor="@color/gray"
                 android:textSize="@dimen/font_small"
+                android:visibility="@{talk.placesIsEmpty() ? View.GONE : View.VISIBLE}"
                 tools:text="ROOM 2" />
 
             <TextView
@@ -81,15 +81,6 @@
                 android:textStyle="bold"
                 tools:text="Speaker" />
 
-            <TextView
-                android:id="@+id/textDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:textColor="@color/medium_gray"
-                android:textSize="@dimen/font_default"
-                tools:text="@tools:sample/lorem/random" />
         </LinearLayout>
     </LinearLayout>
 </layout>

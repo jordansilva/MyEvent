@@ -2,13 +2,13 @@ package app.jordansilva.domain.interactor.schedule
 
 import app.jordansilva.domain.domain.Agenda
 import app.jordansilva.domain.interactor.BaseUseCase
-import app.jordansilva.domain.repository.ScheduleRepository
+import app.jordansilva.domain.repository.AgendaRepository
 
-class GetAgendaUseCase(private var scheduleRepository: ScheduleRepository) : BaseUseCase() {
+class GetAgendaUseCase(private var agendaRepository: AgendaRepository) : BaseUseCase() {
 
     suspend fun execute(): Agenda? {
         try {
-            val agendas = async { scheduleRepository.getAgenda() }.await()
+            val agendas = async { agendaRepository.getAgenda() }.await()
 
             return if (agendas.isNotEmpty()) agendas[1] else null
         } catch (exception: Exception) {

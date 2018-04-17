@@ -8,13 +8,13 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ESTDateSerializer : JsonDeserializer<Date> {
+class UTCDataSerializer : JsonDeserializer<Date> {
 
-    private val dateFormat: DateFormat
+    val dateFormat: DateFormat
 
     init {
         dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US)
-        dateFormat.timeZone = TimeZone.getTimeZone("EST")
+        dateFormat.timeZone = TimeZone.getTimeZone("UTC")
     }
 
     override fun deserialize(json: JsonElement, typeOfT: Type?, context: JsonDeserializationContext?): Date {

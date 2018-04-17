@@ -1,7 +1,7 @@
-package com.unimedbh.prestador.data.repository.remote
+package app.jordansilva.data.repository.remote
 
+import app.jordansilva.infrastructure.util.extensions.fromJson
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 
 class BaseResponse<T> {
 
@@ -23,9 +23,8 @@ class BaseResponse<T> {
     fun <D> toJsonList(obj: Class<D>): List<D> {
         data?.let {
             val gson = Gson()
-            val typeToken = TypeToken.getParameterized(ArrayList::class.java, obj).type
             val json = gson.toJson(data)
-            return gson.fromJson(json, typeToken)
+            return gson.fromJson(json)
         }
 
         return arrayListOf()

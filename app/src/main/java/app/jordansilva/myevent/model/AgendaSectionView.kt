@@ -1,9 +1,9 @@
 package app.jordansilva.myevent.model
 
-import java.util.*
+import org.threeten.bp.OffsetDateTime
 
 data class AgendaSectionView(val id: String,
                              val name: String,
                              var talks: List<TalkView>,
-                             val startDate: Date,
-                             val endDate: Date)
+                             val startDate: OffsetDateTime,
+                             val endDate: OffsetDateTime)

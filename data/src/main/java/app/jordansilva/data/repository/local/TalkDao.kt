@@ -1,25 +1,26 @@
-package com.unimedbh.prestador.data.repository.local
+package app.jordansilva.data.repository.local
 
-import android.arch.persistence.room.*
-import com.unimedbh.prestador.data.model.UsuarioModel
-
+import android.arch.persistence.room.Dao
+import android.arch.persistence.room.Query
+import app.jordansilva.data.model.TalkModel
+import org.threeten.bp.OffsetDateTime
 
 @Dao
-interface TalkDao {
+interface TalkDao : BaseDao<TalkModel> {
 
-    @Query("SELECT * FROM Users WHERE id = :userId")
-    fun getUsuarioById(userId: String): UsuarioModel?
+    @Query("SELECT * FROM talks WHERE id = :id")
+    fun getTalkById(id: String): TalkModel?
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertUsuario(user: UsuarioModel)
+    @Query("SELECT * FROM talks WHERE datetime(:date) between datetime(startDate) AND datetime(endDate) ORDER BY datetime(startDate), datetime(endDate)")
+    fun getTalksHappeningNow(date: OffsetDateTime): List<TalkModel>
 
-    @Update
-    fun updateUsuario(user: UsuarioModel): Int
+    @Query("SELECT * FROM talks WHERE date(:date) between date(startDate) AND date(endDate) ORDER BY datetime(startDate), datetime(endDate)")
+    fun getTalksByDay(date: OffsetDateTime): List<TalkModel>
 
-    @Query("DELETE FROM Users WHERE id = :userId")
-    fun deleteUsuarioById(userId: String): Int
+    @Query("SELECT * FROM talks WHERE sectionId = :sectionId")
+    fun getTalksBySection(sectionId: String): List<TalkModel>
 
-    @Query("DELETE FROM Users")
-    fun deleteTodosUsuarios()
+    @Query("SELECT * FROM talks ORDER BY datetime(startDate), datetime(endDate)")
+    fun listAllTalks(): List<TalkModel>
 
 }

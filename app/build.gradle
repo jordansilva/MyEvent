@@ -61,9 +61,13 @@ dependencies {
     implementation "org.koin:koin-android:$rootProject.koinVersion"
     implementation "org.koin:koin-android-architecture:$rootProject.koinVersion"
 
+    //Room
+    implementation "android.arch.persistence.room:runtime:$rootProject.roomVersion"
+    kapt "android.arch.persistence.room:compiler:$rootProject.roomVersion"
+
     //Gson
     implementation "com.google.code.gson:gson:2.8.2"
-
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.0.5'
     implementation 'androidx.core:core-ktx:0.3'
 
     //Test

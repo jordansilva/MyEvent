@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import app.jordansilva.myevent.R
-import app.jordansilva.myevent.adapter.ProgramAdapter
+import app.jordansilva.myevent.ui.agenda.TalkAdapter
 import app.jordansilva.myevent.model.TalkView
 import app.jordansilva.myevent.ui.BaseFragment
 import kotlinx.android.synthetic.main.recyclerview_vertical.*
@@ -33,7 +33,7 @@ class TalksHappeningFragment : BaseFragment() {
         textEmpty.isVisible = !recyclerView.isVisible
 
         data?.let {
-            recyclerView.adapter = ProgramAdapter(ctx, it)
+            recyclerView.adapter = TalkAdapter(ctx, it, R.layout.row_talk_view_2)
         }
     }
 

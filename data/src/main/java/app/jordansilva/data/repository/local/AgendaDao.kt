@@ -1,21 +1,24 @@
-package com.unimedbh.prestador.data.repository.local
+package app.jordansilva.data.repository.local
 
 import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
-import app.jordansilva.data.repository.model.SectionModel
+import app.jordansilva.data.model.AgendaModel
+import app.jordansilva.data.model.AgendaWithSections
+import org.threeten.bp.OffsetDateTime
 
 @Dao
-interface SectionDao {
+interface AgendaDao : BaseDao<AgendaModel> {
 
-    @Query("SELECT * FROM sections WHERE id = :id")
-    fun getSectionById(id: String): SectionModel?
+    @Query("SELECT * FROM agendas WHERE id = :id")
+    fun getAgendaById(id: String): AgendaModel?
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveSection(item: SectionModel)
+    @Query("SELECT * FROM agendas ORDER BY datetime(startDate), datetime(endDate)")
+    fun listAgendas(): List<AgendaModel>
 
-    @Query("DELETE FROM sections WHERE id = :id")
-    fun deleteSectionById(id: String): Int
+    @Query("SELECT * FROM agendas WHERE date(:date) between date(startDate) AND date(endDate)")
+    fun getAgendaByDay(date: OffsetDateTime): List<AgendaModel>
+
+    @Query("SELECT * FROM agendas ORDER BY datetime(startDate), datetime(endDate)")
+    fun listAgendasWithSections(): List<AgendaWithSections>
 
 }

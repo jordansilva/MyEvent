@@ -2,11 +2,12 @@ package app.jordansilva.domain.repository
 
 import app.jordansilva.domain.domain.Agenda
 import app.jordansilva.domain.domain.Talk
-import java.util.*
+import org.threeten.bp.OffsetDateTime
 
-interface ScheduleRepository {
+interface AgendaRepository {
 
     fun getAgenda() : List<Agenda>
-    fun getTalksByDate(date: Date): List<Talk>
+    fun getTalksByDate(date: OffsetDateTime): List<Talk>
+    fun getTalksNow(): List<Talk>
 
 }

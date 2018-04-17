@@ -1,4 +1,4 @@
-package app.jordansilva.myevent.ui.schedule
+package app.jordansilva.myevent.ui.agenda
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
@@ -8,17 +8,18 @@ import androidx.core.view.isVisible
 import app.jordansilva.myevent.R
 import app.jordansilva.myevent.model.AgendaSectionView
 import app.jordansilva.myevent.ui.BaseFragment
+import app.jordansilva.myevent.util.extension.px
 import kotlinx.android.synthetic.main.fragment_schedule.*
 import kotlinx.android.synthetic.main.fragment_schedule.view.*
 import org.jetbrains.anko.support.v4.act
 import org.koin.android.architecture.ext.viewModel
 
-class DailyProgrammeFragment : BaseFragment() {
+class AgendaBySectionFragment : BaseFragment() {
 
-    val viewModel by viewModel<DailyProgrammeViewModel>()
+    val viewModel by viewModel<AgendaBySectionViewModel>()
 
     companion object {
-        fun newInstance() = DailyProgrammeFragment()
+        fun newInstance() = AgendaBySectionFragment()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,16 +39,21 @@ class DailyProgrammeFragment : BaseFragment() {
     }
 
     private fun configureUi(view: View) {
-        view.container.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(view.tabs))
-        view.tabs.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(view.container))
+        view.viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(view.tabs))
+        view.viewPager.apply {
+            clipToPadding = false
+            pageMargin = 2.px
+        }
+        view.tabs.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(view.viewPager))
+
     }
 
     private fun setUpTalks(data: List<AgendaSectionView>?) {
-        container.isVisible = data?.isNotEmpty() ?: false
-        textEmpty.isVisible = !container.isVisible
+        viewPager.isVisible = data?.isNotEmpty() ?: false
+        textEmpty.isVisible = !viewPager.isVisible
 
         data?.let {
-            container.adapter = DailySectionViewPagerAdapter(fragmentManagerChild, it)
+            viewPager.adapter = AgendaSectionViewPagerAdapter(fragmentManagerChild, it)
         }
     }
 

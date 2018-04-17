@@ -2,14 +2,13 @@ package app.jordansilva.domain.interactor.schedule
 
 import app.jordansilva.domain.domain.Talk
 import app.jordansilva.domain.interactor.BaseUseCase
-import app.jordansilva.domain.repository.ScheduleRepository
-import java.util.*
+import app.jordansilva.domain.repository.AgendaRepository
 
-class GetTalksNowUseCase(private var scheduleRepository: ScheduleRepository) : BaseUseCase() {
+class GetTalksNowUseCase(private var agendaRepository: AgendaRepository) : BaseUseCase() {
 
-    suspend fun execute(date: Date): List<Talk>? {
+    suspend fun execute(): List<Talk>? {
         try {
-            val talks = async { scheduleRepository.getTalksByDate(date) }.await()
+            val talks = async { agendaRepository.getTalksNow() }.await()
 
             return talks
         } catch (exception: Exception) {

@@ -1,16 +1,20 @@
 package app.jordansilva.data.mapper
 
-import app.jordansilva.data.model.AgendaModel
-import app.jordansilva.domain.domain.Agenda
+import app.jordansilva.data.model.TalkModel
+import app.jordansilva.domain.domain.Talk
 
-object AgendaMapper : Mapper<Agenda, AgendaModel> {
+object TalkMapper : Mapper<Talk, TalkModel> {
 
-    override fun mapFromDomain(type: Agenda): AgendaModel {
-        return AgendaModel(id = type.id, name = type.name, startDate = type.startDate, endDate = type.endDate)
+    override fun mapFromDomain(type: Talk): TalkModel {
+        return TalkModel(id = type.id, name = type.name,
+                startDate = type.startDate, endDate = type.endDate, sectionId = type.parentId,
+                locations = arrayListOf())
     }
 
-    override fun mapToDomain(type: AgendaModel): Agenda {
-        return Agenda(id = type.id, name = type.name, startDate = type.startDate, endDate = type.endDate, sections = arrayListOf())
+    override fun mapToDomain(type: TalkModel): Talk {
+        return Talk(id = type.id, name = type.name,
+                startDate = type.startDate, endDate = type.endDate, parentId = type.sectionId,
+                locations= arrayListOf())
     }
 
 }

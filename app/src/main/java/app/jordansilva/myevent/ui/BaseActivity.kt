@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.widget.TextView
+import androidx.core.view.isVisible
 import app.jordansilva.myevent.R
 import org.jetbrains.anko.findOptional
 
@@ -29,7 +30,19 @@ open class BaseActivity : AppCompatActivity() {
 
     override fun setTitle(@StringRes resId: Int) {
         setTitle(getString(resId))
+    }
 
+    fun setSubtitle(@StringRes resId: Int) {
+        setSubtitle(getString(resId))
+    }
+
+    fun setSubtitle(subtitle: String) {
+        val toolbar = findOptional<Toolbar>(R.id.toolbar)
+        toolbar?.let {
+            val toolbarSubtitle = findOptional<TextView>(R.id.toolbarSubtitle)
+            toolbarSubtitle?.isVisible = !subtitle.isBlank()
+            toolbarSubtitle?.text = subtitle
+        }
     }
 
     protected fun addFragment(@IdRes containerViewId: Int, vararg fragment: Fragment) {

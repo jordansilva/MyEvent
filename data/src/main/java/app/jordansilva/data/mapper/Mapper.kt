@@ -1,4 +1,4 @@
-package com.unimedbh.prestador.data.mapper
+package app.jordansilva.data.mapper
 
 interface Mapper<Domain, Model> {
 
