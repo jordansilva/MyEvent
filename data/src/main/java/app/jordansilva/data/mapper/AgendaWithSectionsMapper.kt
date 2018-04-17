@@ -8,13 +8,13 @@ object AgendaWithSectionsMapper : Mapper<Agenda, AgendaWithSections> {
     override fun mapFromDomain(type: Agenda): AgendaWithSections {
         return AgendaWithSections().apply {
             agenda = AgendaMapper.mapFromDomain(type)
-            sections = type.sections?.map { SectionMapper.mapFromDomain(it) } ?: arrayListOf()
+            sections = type.sections?.map { SectionWithTalksMapper.mapFromDomain(it) } ?: arrayListOf()
         }
     }
 
     override fun mapToDomain(type: AgendaWithSections): Agenda {
         val agenda = AgendaMapper.mapToDomain(type.agenda!!)
-        agenda.sections = type.sections.map { SectionMapper.mapToDomain(it) }
+        agenda.sections = type.sections.map { SectionWithTalksMapper.mapToDomain(it) }
         return agenda
     }
 

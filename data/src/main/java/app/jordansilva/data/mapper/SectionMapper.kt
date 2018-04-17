@@ -12,7 +12,7 @@ object SectionMapper : Mapper<AgendaSection, SectionModel> {
                 endDate = type.endDate,
                 agendaId = type.parentId)
                 .apply {
-                    talks = ArrayList(type.talks?.map { TalkMapper.mapFromDomain(it) })
+                    talks = ArrayList(type.talks?.map { TalkMapper.mapFromDomain(it) } ?: arrayListOf())
                 }
     }
 
@@ -22,7 +22,7 @@ object SectionMapper : Mapper<AgendaSection, SectionModel> {
                 startDate = type.startDate,
                 endDate = type.endDate,
                 parentId = type.agendaId,
-                talks = ArrayList(type.talks?.map { TalkMapper.mapToDomain(it) }))
+                talks = type.talks?.map { TalkMapper.mapToDomain(it) })
     }
 
 }

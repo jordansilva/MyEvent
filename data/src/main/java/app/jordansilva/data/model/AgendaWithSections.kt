@@ -7,6 +7,6 @@ class AgendaWithSections : BaseModel() {
     @Embedded
     var agenda: AgendaModel? = null
 
-    @Relation(parentColumn = "id", entityColumn = "agendaId")
-    var sections: List<SectionModel> = arrayListOf()
+    @Relation(parentColumn = "id", entityColumn = "agendaId", entity = SectionModel::class)
+    var sections: List<SectionModelWithTalks> = arrayListOf()
 }
