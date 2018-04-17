@@ -36,9 +36,6 @@ class ProgramAdapter(val context: Context,
 
         fun bindView(item: TalkView) {
             view.setVariable(BR.talk, item)
-//            view.textDate.text = item.period()
-//            view.textTitle.text = item.title
-//            view.textPlace.text = item.place
         }
     }
 }

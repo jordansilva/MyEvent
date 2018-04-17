@@ -1,12 +1,13 @@
-package app.jordansilva.myevent.ui.schedule
+package app.jordansilva.myevent.ui.agenda.fragment
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import app.jordansilva.myevent.model.AgendaSectionView
+import app.jordansilva.myevent.ui.agenda.TalkListFragment
 
-class DailySectionViewPagerAdapter(fragmentManager: FragmentManager,
-                                   val data: List<AgendaSectionView>) : FragmentStatePagerAdapter(fragmentManager) {
+class AgendaSectionViewPagerAdapter(fragmentManager: FragmentManager,
+                                    val data: List<AgendaSectionView>) : FragmentStatePagerAdapter(fragmentManager) {
 
     override fun getItem(position: Int): Fragment {
         return TalkListFragment.newInstance(ArrayList(data[position].talks))
@@ -19,5 +20,7 @@ class DailySectionViewPagerAdapter(fragmentManager: FragmentManager,
     override fun getCount(): Int {
         return data.size
     }
+
+
 
 }
