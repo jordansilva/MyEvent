@@ -7,7 +7,7 @@ import retrofit2.http.GET
 
 interface ApiEventService {
 
-    @GET("timeslot.json")
+    @GET("timeslots.json")
     fun getTimeslots(): Deferred<List<TimeslotResponse>>
 
     @GET("places.json")
