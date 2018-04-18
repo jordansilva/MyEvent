@@ -8,8 +8,8 @@ import java.util.*
 data class TimeslotResponse(
         @SerializedName("_id") val id: String,
         @SerializedName("name") val name: String,
-        @SerializedName("start") val start: OffsetDateTime,
-        @SerializedName("end") val end: OffsetDateTime,
+        @SerializedName("start") var start: OffsetDateTime,
+        @SerializedName("end") var end: OffsetDateTime,
         @SerializedName("parent") val parent: String?,
         @SerializedName("locations") val location: ArrayList<Location>?) {
 

@@ -13,5 +13,9 @@ class Constants {
     object API {
         val GITHUB_URL = "https://raw.githubusercontent.com/jordansilva/MyEvent/master/util/"
     }
+
+    object SHARED_PREFS {
+        val LAST_SYNC = "LAST_SYNC"
+    }
 }
 

@@ -4,6 +4,7 @@ import app.jordansilva.data.mapper.AgendaWithSectionsMapper
 import app.jordansilva.data.mapper.TalkMapper
 import app.jordansilva.data.mapper.TimeslotMapper
 import app.jordansilva.data.repository.local.AgendaDao
+import app.jordansilva.data.repository.local.Assets
 import app.jordansilva.data.repository.local.SectionDao
 import app.jordansilva.data.repository.local.TalkDao
 import app.jordansilva.data.repository.remote.event.ApiEventService
@@ -12,45 +13,78 @@ import app.jordansilva.data.repository.remote.event.model.TimeslotResponse
 import app.jordansilva.domain.domain.Agenda
 import app.jordansilva.domain.domain.Talk
 import app.jordansilva.domain.repository.AgendaRepository
-import kotlinx.coroutines.experimental.async
+import app.jordansilva.infrastructure.util.Constants
+import org.threeten.bp.Instant
 import org.threeten.bp.OffsetDateTime
 import java.util.*
 
 class AgendaDataRepository constructor(private val agendaDao: AgendaDao,
                                        private val sectionDao: SectionDao,
                                        private val talkDao: TalkDao,
-                                       private val apiEventService: ApiEventService) : AgendaRepository {
+                                       private val apiEventService: ApiEventService,
+                                       private val assets: Assets) : AgendaRepository {
 
 
-    init {
-        populateDb()
+    override fun initAgenda() : Boolean {
+        try {
+            val places = assets.readPlaces()
+            val timeslots = assets.readTimeslots()
+
+            return initializeAgenda(places, timeslots)
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+        }
+
+        return false
     }
 
-    private fun populateDb() {
-        async {
-            try {
-                val places = apiEventService.getPlaces().await()
-                val hashMapPlaces = HashMap<String, PlaceResponse>()
-                places.forEach { hashMapPlaces[it.id] = it }
+    override suspend fun syncAgenda(): Boolean {
+        try {
+            val places = apiEventService.getPlaces().await()
+            val timeslots = apiEventService.getTimeslots().await()
 
-                var timeslots = apiEventService.getTimeslots().await()
-                timeslots = timeslots.sortedWith(compareBy(TimeslotResponse::start, TimeslotResponse::end))
+            initializeAgenda(places, timeslots)
 
-                val agendas = timeslots.filter { it.parent.isNullOrEmpty() }.map(TimeslotMapper::toAgenda)
-                var parentIds = agendas.map { it.id }
-
-                val sections = timeslots.filter { parentIds.contains(it.parent) }.map(TimeslotMapper::toAgendaSection)
-                parentIds = sections.map { it.id }
-
-                val talks = timeslots.filter { parentIds.contains(it.parent) }.map { TimeslotMapper.toTalk(it, hashMapPlaces) }
-
-                agendaDao.insert(agendas)
-                sectionDao.insert(sections)
-                talkDao.insert(talks)
-            } catch (ex : Exception) {
-                ex.printStackTrace()
-            }
+            return true
+        } catch (ex: Exception) {
+            ex.printStackTrace()
         }
+
+        return false
+    }
+
+    private fun initializeAgenda(places: List<PlaceResponse>, agenda: List<TimeslotResponse>): Boolean {
+        try {
+            val timeslots = agenda.sortedWith(compareBy(TimeslotResponse::start, TimeslotResponse::end))
+
+            //Agenda
+            val agendas = timeslots.filter { it.parent.isNullOrEmpty() }.map(TimeslotMapper::toAgenda)
+            var parentIds = agendas.map { it.id }
+
+            //Sections
+            val sections = timeslots.filter { parentIds.contains(it.parent) }.map(TimeslotMapper::toAgendaSection)
+            parentIds = sections.map { it.id }
+
+            //Places
+            val hashMapPlaces = HashMap<String, PlaceResponse>()
+            places.forEach { hashMapPlaces[it.id] = it }
+
+            //Talks
+            val talks = timeslots.filter { parentIds.contains(it.parent) }.map {
+                it.start = it.start.atZoneSameInstant(Constants.SETTINGS.ZONEID).toOffsetDateTime()
+                it.end = it.end.atZoneSameInstant(Constants.SETTINGS.ZONEID).toOffsetDateTime()
+                TimeslotMapper.toTalk(it, hashMapPlaces)
+            }
+
+            agendaDao.insert(agendas)
+            sectionDao.insert(sections)
+            talkDao.insert(talks)
+            return true
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+        }
+
+        return false
     }
 
     /** Get a list of [Talk] by date ignoring the day time */
@@ -64,36 +98,14 @@ class AgendaDataRepository constructor(private val agendaDao: AgendaDao,
      * To this end, talks are filtered by current datetime.
      */
     override fun getTalksNow(): List<Talk> {
-
         val calendar = Calendar.getInstance()
         calendar.set(2018, 9, 18)
 
-//        val instant = Instant.ofEpochMilli(calendar.timeInMillis)
-//
-//        val offsetDateTime = OffsetDateTime.ofInstant()
+        val instant = Instant.ofEpochMilli(calendar.timeInMillis)
+        val offsetDateTime = OffsetDateTime.ofInstant(instant, Constants.SETTINGS.ZONEID)
 
-        val talks = talkDao.getTalksHappeningNow(OffsetDateTime.now())
+        val talks = talkDao.getTalksHappeningNow(offsetDateTime)
         return talks.map { TalkMapper.mapToDomain(it) }
-
-//        val listOfAgenda = getAgenda()
-//
-//        val current = Calendar.getInstance().apply {
-//            val event = Calendar.getInstance()
-//            event.time = listOfAgenda[0].startDate
-//            set(event.year, event.month, event.dayOfMonth)
-//        }
-//
-//
-//        val date = current.time
-//
-//        val agenda = listOfAgenda.find { date.isBetweenIngoreTime(it.startDate, it.endDate) }
-//        val listOfTalks = agenda?.sections?.map {
-//            it.talks?.filter { talkDate -> date.isBetween(talkDate.startDate, talkDate.endDate) }
-//                    ?: arrayListOf()
-//        } ?: arrayListOf()
-//
-//        val talks = listOfTalks.flatten()
-//        return talks.sortedWith(compareBy(Talk::startDate, Talk::endDate))
     }
 
     /**

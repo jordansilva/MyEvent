@@ -38,6 +38,11 @@ fun Date.isBetween(start: Date, end: Date): Boolean {
     return startCalendar.before(currCalendar) && endCalendar.after(currCalendar)
 }
 
+fun Date.differenceInDays(date: Date) : Int {
+    val diff = date.time - time
+    return (diff / (24 * 60 * 60 * 1000)).toInt()
+}
+
 fun Date.isBetweenIngoreTime(start: Date, end: Date): Boolean {
     val startCalendar = instanceCalendar24h(start, Constants.SETTINGS.TIMEZONE, 0, 0, 0)
     val endCalendar = instanceCalendar24h(end, Constants.SETTINGS.TIMEZONE, 23, 59, 59)

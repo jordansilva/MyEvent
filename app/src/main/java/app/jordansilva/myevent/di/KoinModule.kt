@@ -11,8 +11,10 @@ import app.jordansilva.domain.domain.Talk
 import app.jordansilva.domain.interactor.schedule.GetAgendaUseCase
 import app.jordansilva.domain.interactor.schedule.GetTalksByDayUseCase
 import app.jordansilva.domain.interactor.schedule.GetTalksNowUseCase
+import app.jordansilva.domain.interactor.synchronization.SynchronizeAgendaUseCase
 import app.jordansilva.domain.repository.AgendaRepository
 import app.jordansilva.infrastructure.util.factory.GsonFactory
+import app.jordansilva.myevent.MainActivityViewModel
 import app.jordansilva.myevent.mapper.AgendaSectionViewMapper
 import app.jordansilva.myevent.mapper.MapperView
 import app.jordansilva.myevent.mapper.TalkViewMapper
@@ -30,6 +32,7 @@ object KoinModule {
         viewModel { AgendaBySectionViewModel(get(), get("agendaSectionViewMapper"), get("talkViewMapper")) }
         viewModel { TalksHappeningViewModel(get(), get("talkViewMapper")) }
         viewModel { DailyProgrammeViewModel(get(), get("talkViewMapper")) }
+        viewModel { MainActivityViewModel(get(), get()) }
 
         //Mappers
         factory("agendaSectionViewMapper") { AgendaSectionViewMapper() as MapperView<AgendaSection, AgendaSectionView> }
@@ -40,6 +43,7 @@ object KoinModule {
         factory { GetAgendaUseCase(get()) }
         factory { GetTalksNowUseCase(get()) }
         factory { GetTalksByDayUseCase(get()) }
+        factory { SynchronizeAgendaUseCase(get()) }
 
         bean { GsonFactory.getInstance() }
     }
@@ -54,7 +58,7 @@ object KoinModule {
         factory { AppDatabase.getInstance(get()).talkDao() }
 
         //Repositories
-        bean { AgendaDataRepository(get(), get(), get(), get()) } bind AgendaRepository::class
+        bean { AgendaDataRepository(get(), get(), get(), get(), get()) } bind AgendaRepository::class
     }
 
     val ApiModule = applicationContext {

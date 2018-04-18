@@ -49,9 +49,9 @@ class HomeActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
         menuIndex = itemId
 
         return when (itemId) {
-            R.id.navigation_schedule -> showFragment(DailyProgrammeFragment.newInstance())
+            R.id.navigation_daily -> showFragment(DailyProgrammeFragment.newInstance())
             R.id.navigation_happening -> showFragment(TalksHappeningFragment.newInstance())
-            R.id.navigation_group -> showFragment(AgendaBySectionFragment.newInstance())
+            R.id.navigation_schedule -> showFragment(AgendaBySectionFragment.newInstance())
             else -> false
         }
     }

@@ -1,6 +1,5 @@
 package app.jordansilva.myevent.ui.daily
 
-import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,7 +23,7 @@ class DailyProgrammeFragment : BaseFragment() {
         val view = inflater.inflate(R.layout.recyclerview_vertical, container, false)
         act.setTitle(R.string.title_daily_programme)
 
-        viewModel.talks.observe(this, Observer { setUpTalks(it) })
+        viewModel.talks.observeForever({ setUpTalks(it) })
 
         return view
     }

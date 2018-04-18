@@ -3,21 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/navigation_schedule"
+        android:id="@+id/navigation_daily"
         android:icon="@drawable/ic_event_black_24dp"
-        android:title=""
+        android:title="@string/title_daily_programme"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/navigation_happening"
         android:icon="@drawable/ic_whatshot_black_24dp"
-        android:title=""
+        android:title="@string/now"
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/navigation_group"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title=""
+        android:id="@+id/navigation_schedule"
+        android:icon="@drawable/ic_event_note_black_24dp"
+        android:title="@string/title_schedule"
         app:showAsAction="always" />
 
 </menu>

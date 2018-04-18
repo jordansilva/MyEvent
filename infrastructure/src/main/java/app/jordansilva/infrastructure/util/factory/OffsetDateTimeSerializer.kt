@@ -12,7 +12,7 @@ class OffsetDateTimeSerializer : JsonDeserializer<OffsetDateTime> {
     private val formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME
 
     override fun deserialize(json: JsonElement, typeOfT: Type?, context: JsonDeserializationContext?): OffsetDateTime {
-        return OffsetDateTime.parse(json.asString)
+        return  OffsetDateTime.parse(json.asString)
     }
 
 }

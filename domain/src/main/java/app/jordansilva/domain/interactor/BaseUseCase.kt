@@ -5,7 +5,7 @@ import kotlinx.coroutines.experimental.CoroutineScope
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
 
-abstract class BaseUseCase {
+abstract class BaseUseCase() {
 
     private val deferredObjects: MutableList<Deferred<*>> = mutableListOf()
 

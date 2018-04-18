@@ -22,7 +22,7 @@ fun BottomNavigationView.disableShiftMode() {
         for (i in 0 until menuView.childCount) {
             val item = menuView.getChildAt(i) as BottomNavigationItemView
             item.setShiftingMode(false)
-            item.setPadding(0, 15, 0, 0)
+            //item.setPadding(0, 15, 0, 0)
             // set once again checked value, so view will be updated
             item.setChecked(item.itemData.isChecked)
         }

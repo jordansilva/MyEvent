@@ -10,4 +10,6 @@
     <color name="medium_gray">#8e9094</color>
     <color name="dark_gray">#333333</color>
     <color name="navy_gray">#29434e</color>
+    <color name="purple">#411564</color>
+    <color name="lime">#B1D34B</color>
 </resources>
