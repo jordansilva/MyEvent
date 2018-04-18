@@ -10,6 +10,7 @@ import app.jordansilva.myevent.mapper.MapperView
 import app.jordansilva.myevent.model.AgendaSectionView
 import app.jordansilva.myevent.model.TalkView
 import app.jordansilva.myevent.ui.BaseViewModel
+import com.crashlytics.android.Crashlytics
 import org.threeten.bp.OffsetDateTime
 import java.util.*
 
@@ -38,40 +39,49 @@ class AgendaBySectionViewModel(private val getAgendaUseCase: GetAgendaUseCase,
 
     private fun getScheduleBySection() {
         launchAsync {
-            val agenda = getAgendaUseCase.execute()
-            val list = agenda?.sections?.map {
-                val item = mapperAgenda.mapToView(it)
-                val talks = it.talks?.map { talk -> mapperTalk.mapToView(talk) }
-                item.talks = talks ?: arrayListOf()
-                item
-            }
+            try {
+                val agenda = getAgendaUseCase.execute()
+                val list = agenda?.sections?.map {
+                    val item = mapperAgenda.mapToView(it)
+                    val talks = it.talks?.map { talk -> mapperTalk.mapToView(talk) }
+                    item.talks = talks ?: arrayListOf()
+                    item
+                }
 
-            schedule.postValue(list)
+                schedule.postValue(list)
+            } catch (ex: Exception) {
+                Crashlytics.logException(ex)
+                ex.printStackTrace()
+            }
         }
     }
 
     private fun getScheduleByLocation() {
         launchAsync {
+            try {
+                val date = OffsetDateTime.now(Constants.SETTINGS.ZONEID).withDayOfMonth(18)
+                        .withMonth(9)
+                        .withYear(2018)
+                        .withHour(12)
 
-            val date = OffsetDateTime.now(Constants.SETTINGS.ZONEID).withDayOfMonth(18)
-                    .withMonth(9)
-                    .withYear(2018)
-                    .withHour(12)
+                val talks = getTalksByDayUseCase.execute(date)
 
-            val talks = getTalksByDayUseCase.execute(date)
+                val hashLocation = HashMap<String, ArrayList<TalkView>>()
+                talks?.forEach { talk ->
+                    talk.locations?.forEach {
+                        if (!hashLocation.containsKey(it))
+                            hashLocation[it] = arrayListOf()
 
-            val hashLocation = HashMap<String, ArrayList<TalkView>>()
-            talks?.forEach { talk ->
-                talk.locations?.forEach {
-                    if (!hashLocation.containsKey(it))
-                        hashLocation[it] = arrayListOf()
-
-                    hashLocation[it]?.add(mapperTalk.mapToView(talk))
+                        hashLocation[it]?.add(mapperTalk.mapToView(talk))
+                    }
                 }
-            }
 
-            val list = hashLocation.keys.map { AgendaSectionView(name = it, talks = hashLocation[it]!!) }
-            schedule.postValue(list)
+                val list = hashLocation.keys.map { AgendaSectionView(name = it, talks = hashLocation[it]!!) }
+                schedule.postValue(list)
+            } catch (ex: Exception) {
+                Crashlytics.logException(ex)
+                ex.printStackTrace()
+            }
         }
     }
 

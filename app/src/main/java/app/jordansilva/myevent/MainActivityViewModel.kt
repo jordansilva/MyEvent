@@ -5,6 +5,7 @@ import android.arch.lifecycle.MutableLiveData
 import app.jordansilva.domain.interactor.synchronization.SynchronizeAgendaUseCase
 import app.jordansilva.myevent.ui.BaseAndroidViewModel
 import app.jordansilva.myevent.util.extension.lastSynchronized
+import com.crashlytics.android.Crashlytics
 import java.util.*
 
 class MainActivityViewModel(private val app: Application,
@@ -32,6 +33,7 @@ class MainActivityViewModel(private val app: Application,
                 }
 
             } catch (ex: Exception) {
+                Crashlytics.logException(ex)
                 ex.printStackTrace()
                 result = false
             } finally {

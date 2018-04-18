@@ -7,6 +7,7 @@ import app.jordansilva.infrastructure.util.Constants
 import app.jordansilva.myevent.mapper.MapperView
 import app.jordansilva.myevent.model.TalkView
 import app.jordansilva.myevent.ui.BaseViewModel
+import com.crashlytics.android.Crashlytics
 import org.threeten.bp.OffsetDateTime
 
 class DailyProgrammeViewModel(private val getTalksByDayUseCase: GetTalksByDayUseCase,
@@ -32,6 +33,7 @@ class DailyProgrammeViewModel(private val getTalksByDayUseCase: GetTalksByDayUse
 
                 talks.postValue(talksView)
             } catch (ex: Exception) {
+                Crashlytics.logException(ex)
                 ex.printStackTrace()
             }
         }
