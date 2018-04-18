@@ -1,5 +1,5 @@
 package app.jordansilva.myevent.model
 
-data class AgendaSectionView(val id: String,
-                             val name: String,
+data class AgendaSectionView(var id: String = "",
+                             var name: String,
                              var talks: List<TalkView>)

@@ -29,7 +29,7 @@ import org.koin.dsl.module.applicationContext
 object KoinModule {
 
     val ViewModule = applicationContext {
-        viewModel { AgendaBySectionViewModel(get(), get("agendaSectionViewMapper"), get("talkViewMapper")) }
+        viewModel { AgendaBySectionViewModel(get(), get(), get("agendaSectionViewMapper"), get("talkViewMapper")) }
         viewModel { TalksHappeningViewModel(get(), get("talkViewMapper")) }
         viewModel { DailyProgrammeViewModel(get(), get("talkViewMapper")) }
         viewModel { MainActivityViewModel(get(), get()) }

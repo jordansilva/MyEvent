@@ -20,6 +20,8 @@ class HomeActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+        menuIndex = savedInstanceState?.getInt("MENU_INDEX", 0) ?: 0
+
         configureUi()
         init()
     }
@@ -35,7 +37,7 @@ class HomeActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
 
     fun init() {
         if (menuIndex == 0)
-            navigateTo(R.id.navigation_schedule)
+            navigateTo(R.id.navigation_daily)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -62,5 +64,10 @@ class HomeActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
         transaction.commitAllowingStateLoss()
 
         return true
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt("MENU_INDEX", menuIndex)
+        super.onSaveInstanceState(outState)
     }
 }

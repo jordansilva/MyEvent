@@ -10,13 +10,23 @@
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottieAnimation"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        app:lottie_cacheStrategy="strong"
         app:lottie_autoPlay="true"
+        app:lottie_cacheStrategy="strong"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/octopus" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:padding="@dimen/padding_double"
+        android:text="@string/loading_events"
+        android:textSize="@dimen/font_default"
+        android:textStyle="bold" />
 
 
 </RelativeLayout>

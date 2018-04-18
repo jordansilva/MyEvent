@@ -9,7 +9,7 @@ import app.jordansilva.myevent.R
 import app.jordansilva.myevent.model.TalkView
 import app.jordansilva.myevent.ui.BaseFragment
 import app.jordansilva.myevent.ui.agenda.TalkAdapter
-import kotlinx.android.synthetic.main.recyclerview_vertical.*
+import kotlinx.android.synthetic.main.recyclerview_vertical.view.*
 import org.jetbrains.anko.support.v4.act
 import org.jetbrains.anko.support.v4.ctx
 import org.koin.android.architecture.ext.viewModel
@@ -23,17 +23,17 @@ class DailyProgrammeFragment : BaseFragment() {
         val view = inflater.inflate(R.layout.recyclerview_vertical, container, false)
         act.setTitle(R.string.title_daily_programme)
 
-        viewModel.talks.observeForever({ setUpTalks(it) })
+        viewModel.talks.observeForever({ setUpTalks(view, it) })
 
         return view
     }
 
-    private fun setUpTalks(data: List<TalkView>?) {
-        recyclerView.isVisible = data?.isNotEmpty() ?: false
-        textEmpty.isVisible = !recyclerView.isVisible
+    private fun setUpTalks(view: View, data: List<TalkView>?) {
+        view.recyclerView.isVisible = data?.isNotEmpty() ?: false
+        view.textEmpty.isVisible = !view.recyclerView.isVisible
 
         data?.let {
-            recyclerView.adapter = TalkAdapter(ctx, it, R.layout.row_talk_view_2)
+            view.recyclerView.adapter = TalkAdapter(ctx, it, R.layout.row_talk_view_2)
         }
     }
 

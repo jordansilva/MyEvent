@@ -7,9 +7,7 @@ import app.jordansilva.infrastructure.util.Constants
 import app.jordansilva.myevent.mapper.MapperView
 import app.jordansilva.myevent.model.TalkView
 import app.jordansilva.myevent.ui.BaseViewModel
-import org.threeten.bp.Instant
 import org.threeten.bp.OffsetDateTime
-import java.util.*
 
 class DailyProgrammeViewModel(private val getTalksByDayUseCase: GetTalksByDayUseCase,
                               private val mapperTalk: MapperView<Talk, TalkView>) : BaseViewModel() {
@@ -23,19 +21,17 @@ class DailyProgrammeViewModel(private val getTalksByDayUseCase: GetTalksByDayUse
     fun getDailyTalks() {
         launchAsync {
             try {
-                val calendar = Calendar.getInstance()
-                calendar.set(Calendar.DAY_OF_MONTH, 18)
-                calendar.set(Calendar.MONTH, 8)
-                calendar.set(Calendar.YEAR, 2018)
-                calendar.set(Calendar.HOUR_OF_DAY, 12)
+                val date = OffsetDateTime.now(Constants.SETTINGS.ZONEID)
+                        .withDayOfMonth(18)
+                        .withMonth(9)
+                        .withYear(2018)
+                        .withHour(12)
 
-                val offsetDateTime = OffsetDateTime.ofInstant(Instant.ofEpochMilli(calendar.timeInMillis), Constants.SETTINGS.ZONEID)
-
-                val listOfTalks = getTalksByDayUseCase.execute(offsetDateTime)
+                val listOfTalks = getTalksByDayUseCase.execute(date)
                 val talksView = listOfTalks?.map { talk -> mapperTalk.mapToView(talk) }
 
                 talks.postValue(talksView)
-            } catch (ex : Exception) {
+            } catch (ex: Exception) {
                 ex.printStackTrace()
             }
         }

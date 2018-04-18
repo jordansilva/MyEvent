@@ -10,7 +10,7 @@ class GetAgendaUseCase(private var agendaRepository: AgendaRepository) : BaseUse
         try {
             val agendas = async { agendaRepository.getAgenda() }.await()
 
-            return if (agendas.isNotEmpty()) agendas[1] else null
+            return if (agendas.isNotEmpty()) agendas[0] else null
         } catch (exception: Exception) {
             throw exception
         }

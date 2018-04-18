@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="app.jordansilva.myevent.ProgramActivity">
+
+    <item
+        android:id="@+id/action_group_sections"
+        android:orderInCategory="100"
+        android:title="@string/sections"
+        app:iconTint="@android:color/black" />
+
+    <item
+        android:id="@+id/action_group_places"
+        android:orderInCategory="100"
+        android:title="@string/places"
+        app:iconTint="@android:color/black" />
+</menu>

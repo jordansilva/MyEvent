@@ -3,6 +3,7 @@ package app.jordansilva.myevent.ui.agenda
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.design.widget.TabLayout
+import android.support.v7.widget.PopupMenu
 import android.view.*
 import androidx.core.view.isVisible
 import app.jordansilva.myevent.R
@@ -13,6 +14,7 @@ import kotlinx.android.synthetic.main.fragment_schedule.*
 import kotlinx.android.synthetic.main.fragment_schedule.view.*
 import org.jetbrains.anko.support.v4.act
 import org.koin.android.architecture.ext.viewModel
+
 
 class AgendaBySectionFragment : BaseFragment() {
 
@@ -25,14 +27,13 @@ class AgendaBySectionFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        act.setTitle(R.string.title_schedule)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_schedule, container, false)
+        act.setTitle(R.string.title_schedule)
 
         viewModel.schedule.observe(this, Observer { setUpTalks(it) })
-        viewModel.getScheduleAnyDate()
 
         configureUi(view)
         return view
@@ -63,7 +64,32 @@ class AgendaBySectionFragment : BaseFragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return super.onOptionsItemSelected(item)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val view: View = act.findViewById(item.itemId)
+
+        return when (item.itemId) {
+            R.id.action_filter -> {
+                showPopup(view)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+
     }
+
+    fun showPopup(v: View) {
+        val popup = PopupMenu(act, v)
+        val inflater = popup.menuInflater
+        inflater.inflate(R.menu.popup_agenda_groups, popup.menu)
+        popup.show()
+        popup.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.action_group_places -> viewModel.setGroupMode(AgendaBySectionViewModel.GroupMode.PLACE)
+                R.id.action_group_sections -> viewModel.setGroupMode(AgendaBySectionViewModel.GroupMode.SECTION)
+            }
+            true
+        }
+    }
+
+
 }

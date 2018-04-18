@@ -14,7 +14,6 @@ import app.jordansilva.domain.domain.Agenda
 import app.jordansilva.domain.domain.Talk
 import app.jordansilva.domain.repository.AgendaRepository
 import app.jordansilva.infrastructure.util.Constants
-import org.threeten.bp.Instant
 import org.threeten.bp.OffsetDateTime
 import java.util.*
 
@@ -87,7 +86,7 @@ class AgendaDataRepository constructor(private val agendaDao: AgendaDao,
         return false
     }
 
-    /** Get a list of [Talk] by date ignoring the day time */
+    /** Get a list of [Talk] by date ignoring the hour of the day */
     override fun getTalksByDate(date: OffsetDateTime): List<Talk> {
         val talks = talkDao.getTalksByDay(date)
         return talks.map { TalkMapper.mapToDomain(it) }
@@ -95,16 +94,12 @@ class AgendaDataRepository constructor(private val agendaDao: AgendaDao,
 
     /**
      * Get a list of [Talk] that are happening now.
+     * The date of the event was fixed, thus, timezone will affect only the hour of the day.
      * To this end, talks are filtered by current datetime.
      */
     override fun getTalksNow(): List<Talk> {
-        val calendar = Calendar.getInstance()
-        calendar.set(2018, 9, 18)
-
-        val instant = Instant.ofEpochMilli(calendar.timeInMillis)
-        val offsetDateTime = OffsetDateTime.ofInstant(instant, Constants.SETTINGS.ZONEID)
-
-        val talks = talkDao.getTalksHappeningNow(offsetDateTime)
+        val date = OffsetDateTime.now(Constants.SETTINGS.ZONEID).withDayOfMonth(18).withMonth(9).withYear(2018)
+        val talks = talkDao.getTalksHappeningNow(date)
         return talks.map { TalkMapper.mapToDomain(it) }
     }
 
